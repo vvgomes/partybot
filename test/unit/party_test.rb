@@ -9,7 +9,7 @@ class PartyTest < ActiveSupport::TestCase
     Party.stubs(:import).returns [@rehab, @rockwork]
   end
 
-  test 'a valid party must have a public id' do
+  test '#valid?' do
     assert !Party.new.valid?
     assert Party.new(:public_id => '99').valid?
   end
@@ -19,7 +19,7 @@ class PartyTest < ActiveSupport::TestCase
     assert Party.new(:public_id => '99') != Party.new(:public_id => '98')
   end
 
-  test '#emails should be empty by default' do
+  test '#emails is empty by default' do
     assert Party.new.emails.empty?
   end
 
