@@ -10,7 +10,7 @@ class Party
     other.public_id == self.public_id
   end
 
-  def self.sync
+  def self.sync!
     stored = Party.all
     imported = Party.import
     (stored - imported).map(&:destroy)
