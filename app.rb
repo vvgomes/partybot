@@ -1,7 +1,4 @@
-require 'sinatra'
-require 'mongoid'
-
-Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
+require_relative 'config/environment'
 
 get '/' do
   status 200
