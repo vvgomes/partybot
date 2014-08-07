@@ -1,7 +1,7 @@
 development:
   sessions:
     default:
-      database: semprenalista_development
+      database: partybot_development
       hosts:
         - localhost:27017
       options:
@@ -11,7 +11,7 @@ development:
 test:
   sessions:
     default:
-      database: semprenalista_test
+      database: partybot_test
       hosts:
         - localhost:27017
       options:
