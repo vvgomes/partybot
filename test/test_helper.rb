@@ -1,0 +1,5 @@
+require 'minitest/autorun'
+require 'minitest/pride'
+require 'active_support/test_case'
+require 'mocha/setup'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__)) + '/../lib'

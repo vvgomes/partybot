@@ -1,0 +1,26 @@
+development:
+  sessions:
+    default:
+      database: semprenalista_development
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+  options:
+
+test:
+  sessions:
+    default:
+      database: semprenalista_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL'] %>
+      options:
+        skip_version_check: true
+        safe: true
