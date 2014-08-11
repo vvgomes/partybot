@@ -11,4 +11,9 @@ class NightclubBaseTest < ActiveSupport::TestCase
     rockwork.expects(:save)
     @club.sync!
   end
+
+  test '#subscribe' do
+    user, party = 2.times.map { stub }
+    assert_raise(NotImplementedError) { @club.subscribe(user, party) }
+  end
 end

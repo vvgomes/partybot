@@ -6,5 +6,9 @@ module Nightclub
       (stored - imported).map(&:destroy)
       (imported - stored).map(&:save)
     end
+
+    def subscribe(user, party)
+      raise NotImplementedError
+    end
   end
 end
