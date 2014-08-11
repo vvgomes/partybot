@@ -11,7 +11,7 @@ class PartyTest < ActiveSupport::TestCase
     assert Party.new(:public_id => '99') != Party.new(:public_id => '98')
   end
 
-  test '#emails is empty by default' do
+  test '#emails' do
     assert Party.new.emails.empty?
   end
 end
