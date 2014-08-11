@@ -9,12 +9,5 @@ class Party
   def ==(other)
     other.public_id == self.public_id
   end
-
-  def self.sync!
-    stored = Party.all
-    imported = Party.import
-    (stored - imported).map(&:destroy)
-    (imported - stored).map(&:save)
-  end
 end
 
