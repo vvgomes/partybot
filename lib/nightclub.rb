@@ -7,13 +7,15 @@ module Nightclub
       (imported - stored).map(&:save)
     end
 
-    def subscribe(user)
+    def bulk_subscribe(user)
       raise ArgumentError unless user.valid?
-      Party.available(user).each do |party|
-        send_subscription(user, party) || next
-        party.emails << user.email
-        party.save
-      end
+      Party.available(user).each{ |party| subscribe(user, party) }
+    end
+
+    def subscribe(user, party)
+      return unless send_subscription(user, party) == 200
+      party.emails << user.email
+      party.save
     end
 
     private

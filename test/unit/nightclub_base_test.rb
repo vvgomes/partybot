@@ -5,7 +5,7 @@ class NightclubBaseTest < ActiveSupport::TestCase
     @club = Nightclub::Base.new
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do
-      Party.new.tap { |p| p.stubs(:save); p.stubs(:destroy) }
+      Party.new.tap{ |p| p.stubs(:save); p.stubs(:destroy) }
     end
   end
 
@@ -18,21 +18,15 @@ class NightclubBaseTest < ActiveSupport::TestCase
   end
 
   test '#subscribe' do
-    Party.stubs(:available).returns [@londoncalling]
-    @club.stubs(:send_subscription).returns true
-    @club.subscribe(@dude)
-    assert @londoncalling.emails.include? 'dude@gmail.com'
+    @club.stubs(:send_subscription).returns 200
+    @club.subscribe(@dude, @londoncalling)
+    assert @londoncalling.emails.include?('dude@gmail.com')
   end
 
-  test '#subscribe when user is invalid' do
-    @dude.stubs(:valid?).returns false
-    assert_raise(ArgumentError) { @club.subscribe(@dude) }
+  test '#subscribe failed' do
+    @club.stubs(:send_subscription).returns 500
+    @club.subscribe(@dude, @londoncalling)
+    assert !@londoncalling.emails.include?('dude@gmail.com')
   end
-
-  test '#subscribe when failed to send the subscription through' do
-    Party.stubs(:available).returns [@londoncalling]
-    @club.stubs(:send_subscription).returns false
-    @club.subscribe(@dude)
-    assert @londoncalling.emails.empty?
-  end
+    #assert_raise(ArgumentError) { @club.subscribe(@dude) }
 end
