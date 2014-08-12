@@ -8,7 +8,6 @@ module Nightclub
     end
 
     def bulk_subscribe(user)
-      raise ArgumentError unless user.valid?
       Party.available(user).each{ |party| subscribe(user, party) }
     end
 

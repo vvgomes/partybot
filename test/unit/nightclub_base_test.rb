@@ -28,5 +28,11 @@ class NightclubBaseTest < ActiveSupport::TestCase
     @club.subscribe(@dude, @londoncalling)
     assert !@londoncalling.emails.include?('dude@gmail.com')
   end
-    #assert_raise(ArgumentError) { @club.subscribe(@dude) }
+
+  test '#bulk_subcribe' do
+    Party.stubs(:available).returns [@londoncalling, @fuckrehab]
+    @club.expects(:subscribe).with(@dude, @londoncalling)
+    @club.expects(:subscribe).with(@dude, @fuckrehab)
+    @club.bulk_subscribe(@dude) 
+  end
 end
