@@ -2,7 +2,8 @@ require_relative '../test_helper'
 
 class NightclubTest < ActiveSupport::TestCase
   setup do
-    @club = Nightclub.new
+    @driver = stub
+    @club = Nightclub.new(@driver)
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do
       Party.new.tap{ |p| p.stubs(:save); p.stubs(:destroy) }
@@ -11,20 +12,20 @@ class NightclubTest < ActiveSupport::TestCase
 
   test '#sync!' do
     Party.stubs(:all).returns [@rockwork, @londoncalling]
-    @club.stubs(:import_parties).returns [@londoncalling, @fuckrehab]
+    @driver.stubs(:import_parties).returns [@londoncalling, @fuckrehab]
     @rockwork.expects(:destroy)
     @fuckrehab.expects(:save)
     @club.sync!
   end
 
   test '#subscribe' do
-    @club.stubs(:send_subscription).returns 200
+    @driver.stubs(:send_subscription).returns 200
     @club.subscribe(@dude, @londoncalling)
     assert @londoncalling.emails.include?('dude@gmail.com')
   end
 
   test '#subscribe failed' do
-    @club.stubs(:send_subscription).returns 500
+    @driver.stubs(:send_subscription).returns 500
     @club.subscribe(@dude, @londoncalling)
     assert !@londoncalling.emails.include?('dude@gmail.com')
   end

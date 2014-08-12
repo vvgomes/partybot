@@ -1,7 +1,11 @@
 class Nightclub
+  def initialize(driver)
+    @driver = driver
+  end
+
   def sync!
     stored = Party.all
-    imported = import_parties
+    imported = @driver.import_parties
     (stored - imported).map(&:destroy)
     (imported - stored).map(&:save)
   end
@@ -11,18 +15,8 @@ class Nightclub
   end
 
   def subscribe(user, party)
-    return unless send_subscription(user, party) == 200
+    return unless @driver.send_subscription(user, party) == 200
     party.emails << user.email
     party.save
-  end
-
-  private
-
-  def import_parties
-    raise NotImplementedError
-  end
-
-  def send_subscription(user, party)
-    raise NotImplementedError
   end
 end

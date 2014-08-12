@@ -1,7 +1,5 @@
-class Beco < Nightclub
+class Beco
   BASE_URL = 'http://www.beco203.com.br'
-
-  private
 
   def import_parties
     home = Mechanize.new.get(BASE_URL)
@@ -23,7 +21,10 @@ class Beco < Nightclub
     Net::HTTP.post_form(post_uri(party), data).code
   end
 
+  private
+
   def post_uri(party)
-    URI("#{BASE_URL}/resources/files/nomeLista.php?id=#{party.public_id}")
+    path = '/resources/files/nomeLista.php?id=' 
+    URI([BASE_URL, path, party.public_id].join)
   end
 end
