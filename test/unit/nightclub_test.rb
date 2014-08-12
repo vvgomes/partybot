@@ -1,8 +1,8 @@
 require_relative '../test_helper' 
 
-class NightclubBaseTest < ActiveSupport::TestCase
+class NightclubTest < ActiveSupport::TestCase
   setup do
-    @club = Nightclub::Base.new
+    @club = Nightclub.new
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do
       Party.new.tap{ |p| p.stubs(:save); p.stubs(:destroy) }
