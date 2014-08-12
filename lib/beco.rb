@@ -1,3 +1,5 @@
+require 'mechanize'
+
 class Beco
   BASE_URL = 'http://www.beco203.com.br'
 
