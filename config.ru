@@ -1,2 +1,2 @@
-require './app'
+require './partybot'
 run Sinatra::Application
