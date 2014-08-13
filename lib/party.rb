@@ -9,5 +9,9 @@ class Party
   def ==(other)
     other.public_id == self.public_id
   end
+
+  def self.available(user)
+    Party.not_in(:emails => user.email)
+  end
 end
 
