@@ -5,10 +5,11 @@ gem 'sinatra'
 gem 'mongoid', '~> 3.0.0'
 gem 'json'
 gem 'mechanize'
-gem 'activesupport'
 gem 'rake'
 
 group :test do
+  gem 'activesupport'
   gem 'mocha', :require => false
+  gem 'rack-test'
 end
 
