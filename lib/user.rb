@@ -2,8 +2,7 @@ class User
   attr_reader :name, :email
 
   def initialize(params)
-    @name = params[:name]
-    @email = params[:email]
+    @name, @email = params[:name], params[:email] if params
   end
 
   def ==(other)
