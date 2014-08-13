@@ -19,4 +19,8 @@ class Nightclub
     party.emails << user.email
     party.save
   end
+
+  def self.current
+    @@current ||= Nightclub.new(Kernel.const_get(ENV['DRIVER']).new)
+  end
 end
