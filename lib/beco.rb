@@ -4,9 +4,8 @@ class Beco
   BASE_URL = 'http://www.beco203.com.br'
 
   def import_parties
-    home = Mechanize.new.get(BASE_URL)
-    party_links = home.links_with(:href => /^agenda\//)
-    party_links.map(&:click).map do |page|
+    Mechanize.new.get(BASE_URL).
+    links_with(:href => /^agenda\//).map(&:click).map do |page|
       page.search('a[title="NOME NA LISTA"]').map do |a|
         a['href'].match(/id=(?<id>\d+)/)['id']
       end.first
