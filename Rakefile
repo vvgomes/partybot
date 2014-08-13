@@ -11,9 +11,13 @@ unless ENV['RACK_ENV'] == 'production'
     Rake::TestTask.new(:integration) do |t|
       t.pattern = 'test/integration/*_test.rb'
     end
+
+    Rake::TestTask.new(:acceptance) do |t|
+      t.pattern = 'test/acceptance/*_test.rb'
+    end
   end
 
-  task :test => [n[:unit], n[:integration]]
+  task :test => [n[:unit], n[:integration], n[:acceptance]]
   task :default => :test
 end
 
