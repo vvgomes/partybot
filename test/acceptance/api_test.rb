@@ -16,7 +16,20 @@ class APITest < ActiveSupport::TestCase
     @londoncalling = Party.create(:public_id => '2')
   end
 
-  test 'subscribe an user to a party' do
+  test 'POST /subscriptions (happy path)' do
+    payload = {
+      :user => {
+        :name => 'Dude',
+        :email => 'dude@gmail.com'
+      }
+    }
+    post '/subscriptions', payload 
+    assert last_response.status == 201
+    assert @rockwork.reload.emails.include? 'dude@gmail.com'
+    assert @londoncalling.reload.emails.include? 'dude@gmail.com'
+  end
+
+  test 'POST /subscriptions (with party)' do
     payload = {
       :party => '1',
       :user => {
@@ -25,36 +38,21 @@ class APITest < ActiveSupport::TestCase
       }
     }
     post '/subscriptions', payload 
-    assert last_response.status == 200
+    assert last_response.status == 201
     assert @rockwork.reload.emails.include? 'dude@gmail.com'
     assert @londoncalling.reload.emails.empty?
   end
 
-  test 'subscribe an user to all parties' do
-    payload = {
-      :user => {
-        :name => 'Dude',
-        :email => 'dude@gmail.com'
-      }
-    }
-    post '/subscriptions', payload 
-    assert last_response.status == 200
-    assert @rockwork.reload.emails.include? 'dude@gmail.com'
-    assert @londoncalling.reload.emails.include? 'dude@gmail.com'
-  end
-
-
-  test 'subscribe with no user' do
-    payload = { :party => '99' }
+  test 'POST /subscriptions (with no user)' do
+    payload = { :party => '1' }
     post '/subscriptions', payload 
     assert last_response.status == 400
     assert @rockwork.reload.emails.empty?
     assert @londoncalling.reload.emails.empty?
   end
 
-  test 'subscribe with invalid user' do
+  test 'POST /subscriptions (with bad user)' do
     payload = {
-      :party => '99',
       :user => {
         :name => 'Dude'
       }
@@ -66,7 +64,7 @@ class APITest < ActiveSupport::TestCase
   end
 
 
-  test 'subscribe with absent party' do
+  test 'POST /subscription (with absent party)' do
     payload = {
       :party => '3',
       :user => {
@@ -78,5 +76,16 @@ class APITest < ActiveSupport::TestCase
     assert last_response.status == 404
     assert @rockwork.reload.emails.empty?
     assert @londoncalling.reload.emails.empty?
+  end
+
+  test 'POST /subscriptions (twice)' do
+    payload = {
+      :user => {
+        :name => 'Dude',
+        :email => 'dude@gmail.com'
+      }
+    }
+    2.times{ post '/subscriptions', payload }
+    assert last_response.status == 404
   end
 end
