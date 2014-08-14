@@ -22,5 +22,8 @@ unless ENV['RACK_ENV'] == 'production'
 end
 
 task :sync do
-  puts 'sync'
+  require_relative 'config/environment'
+  puts "before sync: [#{Party.all.map(&:public_id).join(', ')}]"
+  Nightclub.current.sync!
+  puts "after sync: [#{Party.all.map(&:public_id).join(', ')}]"
 end
