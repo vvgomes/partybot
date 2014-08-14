@@ -10,14 +10,11 @@ class Nightclub
     (imported - stored).map(&:save)
   end
 
-  def bulk_subscribe(user)
-    Party.available(user).each{ |party| subscribe(user, party) }
-  end
-
-  def subscribe(user, party)
-    return unless @driver.send_subscription(user, party) == 200
-    party.emails << user.email
-    party.save
+  def subscribe(user, parties)
+    parties.each do |party|
+      next unless @driver.send_subscription(user, party) == '200'
+      party.tap{ |p| p.emails << user.email }.save
+    end
   end
 
   def self.current

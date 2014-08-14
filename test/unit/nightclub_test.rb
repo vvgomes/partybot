@@ -5,8 +5,8 @@ class NightclubTest < ActiveSupport::TestCase
     @driver = stub
     @club = Nightclub.new(@driver)
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
-    @rockwork, @londoncalling, @fuckrehab = 3.times.map do
-      Party.new.tap{ |p| p.stubs(:save); p.stubs(:destroy) }
+    @rockwork, @londoncalling, @fuckrehab = 3.times.map do |id|
+      Party.new(public_id: id).tap{ |p| p.stubs(:save); p.stubs(:destroy) }
     end
   end
 
@@ -19,21 +19,17 @@ class NightclubTest < ActiveSupport::TestCase
   end
 
   test '#subscribe' do
-    @driver.stubs(:send_subscription).returns 200
-    @club.subscribe(@dude, @londoncalling)
+    @driver.stubs(:send_subscription).returns '200'
+    @club.subscribe(@dude, [@londoncalling, @fuckrehab])
     assert @londoncalling.emails.include?('dude@gmail.com')
+    assert @fuckrehab.emails.include?('dude@gmail.com')
   end
 
   test '#subscribe failed' do
-    @driver.stubs(:send_subscription).returns 500
-    @club.subscribe(@dude, @londoncalling)
-    assert !@londoncalling.emails.include?('dude@gmail.com')
-  end
-
-  test '#bulk_subcribe' do
-    Party.stubs(:available).returns [@londoncalling, @fuckrehab]
-    @club.expects(:subscribe).with(@dude, @londoncalling)
-    @club.expects(:subscribe).with(@dude, @fuckrehab)
-    @club.bulk_subscribe(@dude) 
+    @driver.stubs(:send_subscription).with(@dude, @fuckrehab).returns '500'
+    @driver.stubs(:send_subscription).with(@dude, @londoncalling).returns '200'
+    @club.subscribe(@dude, [@londoncalling, @fuckrehab])
+    assert @londoncalling.emails.include?('dude@gmail.com')
+    assert !@fuckrehab.emails.include?('dude@gmail.com')
   end
 end
