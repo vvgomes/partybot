@@ -12,8 +12,8 @@ class Lab
 
   def send_subscription(user, party)
     data = {
-      'guest[0][email]' => user.email, 
-      'guest[0][name]' => user.name
+      'guests[0][email]' => user.email, 
+      'guests[0][name]' => user.name
     }
     Net::HTTP.post_form(post_uri(party), data).code
   end
