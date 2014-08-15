@@ -11,9 +11,10 @@ class Nightclub
   end
 
   def subscribe(user, parties)
-    parties.each do |party|
-      next unless @driver.send_subscription(user, party) == '200'
-      party.tap{ |p| p.emails << user.email }.save
+    parties.reduce({}) do |out, party|
+      status = @driver.send_subscription(user, party)
+      party.tap{ |p| p.emails << user.email }.save if status == '200'
+      out[party.public_id] = status; out
     end
   end
 
