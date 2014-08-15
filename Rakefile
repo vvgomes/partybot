@@ -25,7 +25,7 @@ unless ENV['RACK_ENV'] == 'production'
       puts "$ #{cmd}"
       abort unless system(cmd)
     end
-    ['beco', 'cucko', 'cabaret'].each do |club|
+    ['beco', 'cucko', 'lab'].each do |club|
       task club.to_sym do
         puts "# deploing to #{club}..."
         unless `git remote -v`.include?(club)
