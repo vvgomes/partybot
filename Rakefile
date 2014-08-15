@@ -3,7 +3,7 @@ require 'rake'
 unless ENV['RACK_ENV'] == 'production'
   require 'rake/testtask'
 
-  n = namespace :test do
+  test = namespace :test do
     Rake::TestTask.new(:unit) do |t|
       t.pattern = 'test/unit/*_test.rb'
     end
@@ -17,8 +17,29 @@ unless ENV['RACK_ENV'] == 'production'
     end
   end
 
-  task :test => [n[:unit], n[:integration], n[:acceptance]]
+  task :test => [test[:unit], test[:integration], test[:acceptance]]
   task :default => :test
+
+  deploy = namespace :deploy do
+    execute = ->(cmd) do
+      puts "$ #{cmd}"
+      abort unless system(cmd)
+    end
+    ['beco', 'cucko', 'cabaret'].each do |club|
+      task club.to_sym do
+        puts "# deploing to #{club}..."
+        unless `git remote -v`.include?(club)
+          execute.("git remote add #{club} git@heroku.com:partybot-#{club}.git")
+        end
+        execute.("heroku maintenance:on -a partybot-#{club}")
+        execute.("git push #{club} master")
+        execute.("heroku maintenance:off -a partybot-#{club}")
+        puts "# deploy to #{club} successful 🍺:"
+      end
+    end
+  end
+
+  task :deploy => [deploy[:beco], deploy[:cucko], deploy[:lab]]
 end
 
 task :sync do
@@ -27,3 +48,4 @@ task :sync do
   Nightclub.current.sync!
   puts "after sync: [#{Party.all.map(&:public_id).join(', ')}]"
 end
+
