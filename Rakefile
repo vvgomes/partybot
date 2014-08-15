@@ -6,14 +6,17 @@ unless ENV['RACK_ENV'] == 'production'
   test = namespace :test do
     Rake::TestTask.new(:unit) do |t|
       t.pattern = 'test/unit/*_test.rb'
+      t.verbose = true
     end
 
     Rake::TestTask.new(:integration) do |t|
       t.pattern = 'test/integration/*_test.rb'
+      t.verbose = true
     end
 
     Rake::TestTask.new(:acceptance) do |t|
       t.pattern = 'test/acceptance/*_test.rb'
+      t.verbose = true
     end
   end
 
