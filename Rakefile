@@ -37,7 +37,7 @@ unless ENV['RACK_ENV'] == 'production'
         end
         execute.("heroku maintenance:on -a #{app}")
         execute.("git push #{club} master")
-        execute.("heroku maintenance:off -a partybot-#{app}")
+        execute.("heroku maintenance:off -a #{app}")
         puts "# deploy to #{club} successful 🍺:"
       end
     end
