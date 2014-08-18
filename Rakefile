@@ -31,12 +31,13 @@ unless ENV['RACK_ENV'] == 'production'
     ['beco', 'cucko', 'lab'].each do |club|
       task club.to_sym do
         puts "# deploing to #{club}..."
+        app = ENV[club.upcase]
         unless `git remote -v`.include?(club)
-          execute.("git remote add #{club} git@heroku.com:partybot-#{club}.git")
+          execute.("git remote add #{club} git@heroku.com:#{app}.git")
         end
-        execute.("heroku maintenance:on -a partybot-#{club}")
+        execute.("heroku maintenance:on -a #{app}")
         execute.("git push #{club} master")
-        execute.("heroku maintenance:off -a partybot-#{club}")
+        execute.("heroku maintenance:off -a partybot-#{app}")
         puts "# deploy to #{club} successful 🍺:"
       end
     end
