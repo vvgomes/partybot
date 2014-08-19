@@ -1,6 +1,6 @@
 require_relative '../test_helper' 
 
-class ScrapingTest < ActiveSupport::TestCase
+class DriversTest < ActiveSupport::TestCase
   test 'beco driver can import more than one party' do
     assert Beco.new.import_parties.size > 1
   end
