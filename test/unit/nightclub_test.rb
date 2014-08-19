@@ -2,8 +2,7 @@ require_relative '../test_helper'
 
 class NightclubTest < ActiveSupport::TestCase
   setup do
-    @driver = stub
-    @club = Nightclub.new(@driver)
+    @club = Nightclub.new(@driver = stub)
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do |id|
       Party.new(public_id: id).tap{ |p| p.stubs(:save); p.stubs(:destroy) }
