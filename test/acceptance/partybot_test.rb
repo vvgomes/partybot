@@ -2,7 +2,7 @@ require_relative '../test_helper'
 require 'rack/test'
 require_relative '../../partybot.rb' 
 
-class APITest < ActiveSupport::TestCase
+class PartybotTest < ActiveSupport::TestCase
   include Rack::Test::Methods
 
   def app
