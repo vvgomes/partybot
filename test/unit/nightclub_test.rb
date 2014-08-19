@@ -32,4 +32,8 @@ class NightclubTest < ActiveSupport::TestCase
     assert @londoncalling.emails.include?('dude@gmail.com')
     assert !@fuckrehab.emails.include?('dude@gmail.com')
   end
+
+  test '.current' do
+    assert Nightclub.current.driver.class == NullDriver
+  end
 end

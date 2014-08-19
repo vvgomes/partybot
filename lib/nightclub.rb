@@ -1,4 +1,6 @@
 class Nightclub
+  attr_reader :driver
+
   def initialize(driver)
     @driver = driver
   end
@@ -21,7 +23,9 @@ class Nightclub
     end
   end
 
-  def self.current
-    @@current ||= Nightclub.new(Kernel.const_get(ENV['DRIVER']).new)
+  class << self
+    def current
+      @current ||= new(Kernel.const_get(ENV['DRIVER']).new)
+    end
   end
 end
