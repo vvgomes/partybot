@@ -11,10 +11,13 @@ class Nightclub
   end
 
   def subscribe(user, parties)
-    parties.reduce({}) do |out, party|
-      status = @driver.send_subscription(user, party)
-      party.tap{ |p| p.emails << user.email }.save if status == '200'
-      out[party.public_id] = status; out
+    Subscription.new.tap do |subs|
+      parties.each do |party|
+        subs[party.public_id] = @driver.send_subscription(user, party)
+        party.tap do |p|
+          p.emails << user.email
+        end.save unless subs.failed?(party.public_id)
+      end
     end
   end
 

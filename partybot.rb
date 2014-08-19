@@ -1,5 +1,6 @@
 require_relative 'config/environment'
 require 'sinatra'
+require 'sinatra/json'
 
 get '/' do
   status 200
@@ -15,9 +16,8 @@ post '/subscriptions' do
   Party.where(:public_id => params[:party]) : Party.available(user)
   return status(404) if parties.empty?
 
-  out = Nightclub.current.subscribe(user, parties)
-  logger.info "RESULTS: #{out}"
-  out.values.find{ |s| s != '200' } ? status(500) : status(201)
+  subscription = Nightclub.current.subscribe(user, parties)
+  logger.info "RESULTS: #{subscription}"
+  subscription.failed? ? status(500) : status(201)
 end
-
 
