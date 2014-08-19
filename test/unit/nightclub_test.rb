@@ -5,7 +5,10 @@ class NightclubTest < ActiveSupport::TestCase
     @club = Nightclub.new(@driver = stub)
     @dude = User.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do |id|
-      Party.new(public_id: id).tap{ |p| p.stubs(:save); p.stubs(:destroy) }
+      Party.new(public_id: id).tap do |p|
+        p.stubs(:save)
+        p.stubs(:destroy)
+      end
     end
   end
 
