@@ -10,7 +10,6 @@ class PartybotTest < ActiveSupport::TestCase
   end
 
   setup do
-    ENV['DRIVER'] = NullDriver.to_s
     Party.delete_all 
     @rockwork = Party.create(:public_id => '1')
     @londoncalling = Party.create(:public_id => '2')
