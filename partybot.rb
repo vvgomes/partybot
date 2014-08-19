@@ -1,6 +1,5 @@
 require_relative 'config/environment'
 require 'sinatra'
-require 'sinatra/json'
 
 get '/' do
   status 200
