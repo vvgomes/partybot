@@ -14,7 +14,7 @@ class PartybotTest < ActiveSupport::TestCase
     2.times.map{ |id| Party.create(:public_id => id.to_s) }
   end
 
-  test 'POST /subscriptions (happy path)' do
+  test 'post /subscriptions (happy path)' do
     payload = {
       :user => {
         :name => 'Dude',
@@ -26,7 +26,7 @@ class PartybotTest < ActiveSupport::TestCase
     assert last_response.body == '{"0":"200","1":"200"}'
   end
 
-  test 'POST /subscriptions (with party)' do
+  test 'post /subscriptions (with party)' do
     payload = {
       :party => '1',
       :user => {
@@ -39,13 +39,13 @@ class PartybotTest < ActiveSupport::TestCase
     assert last_response.body == '{"1":"200"}'
   end
 
-  test 'POST /subscriptions (with no user)' do
+  test 'post /subscriptions (with no user)' do
     payload = { :party => '1' }
     post '/subscriptions', payload 
     assert last_response.status == 400
   end
 
-  test 'POST /subscriptions (with bad user)' do
+  test 'post /subscriptions (with bad user)' do
     payload = {
       :user => {
         :name => 'Dude'
@@ -56,7 +56,7 @@ class PartybotTest < ActiveSupport::TestCase
   end
 
 
-  test 'POST /subscription (with absent party)' do
+  test 'post /subscription (with absent party)' do
     payload = {
       :party => '3',
       :user => {
@@ -68,7 +68,7 @@ class PartybotTest < ActiveSupport::TestCase
     assert last_response.status == 404
   end
 
-  test 'POST /subscriptions (twice)' do
+  test 'post /subscriptions (twice)' do
     payload = {
       :user => {
         :name => 'Dude',
