@@ -8,7 +8,7 @@ end
 
 post '/subscriptions' do
   content_type :json
-  logger.info "NEW SUBSCRIPTION: #{params}"
+  logger.info "SUBSCRIPTION: #{params}"
 
   user = User.new(params[:user])
   return status(400) unless user.valid?
@@ -17,9 +17,8 @@ post '/subscriptions' do
   Party.where(:public_id => params[:party]) : Party.available(user)
   return status(404) if parties.empty?
 
-  Nightclub.current.subscribe(user, parties).tap do |subscription|
-    logger.info "RESULTS: #{subscription}"
-    subscription.failed? ? status(500) : status(201)
-  end.to_json
+  subscription = Nightclub.current.subscribe(user, parties)
+  subscription.failed? ? status(500) : status(201)
+  subscription.to_json
 end
 
