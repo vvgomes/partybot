@@ -11,8 +11,7 @@ class PartybotTest < ActiveSupport::TestCase
 
   setup do
     Party.delete_all 
-    @rockwork = Party.create(:public_id => '1')
-    @londoncalling = Party.create(:public_id => '2')
+    2.times.map{ |id| Party.create(:public_id => id.to_s) }
   end
 
   test 'POST /subscriptions (happy path)' do
@@ -24,8 +23,7 @@ class PartybotTest < ActiveSupport::TestCase
     }
     post '/subscriptions', payload 
     assert last_response.status == 201
-    assert @rockwork.reload.emails.include? 'dude@gmail.com'
-    assert @londoncalling.reload.emails.include? 'dude@gmail.com'
+    assert last_response.body == '{"0":"200","1":"200"}'
   end
 
   test 'POST /subscriptions (with party)' do
@@ -38,16 +36,13 @@ class PartybotTest < ActiveSupport::TestCase
     }
     post '/subscriptions', payload 
     assert last_response.status == 201
-    assert @rockwork.reload.emails.include? 'dude@gmail.com'
-    assert @londoncalling.reload.emails.empty?
+    assert last_response.body == '{"1":"200"}'
   end
 
   test 'POST /subscriptions (with no user)' do
     payload = { :party => '1' }
     post '/subscriptions', payload 
     assert last_response.status == 400
-    assert @rockwork.reload.emails.empty?
-    assert @londoncalling.reload.emails.empty?
   end
 
   test 'POST /subscriptions (with bad user)' do
@@ -58,8 +53,6 @@ class PartybotTest < ActiveSupport::TestCase
     }
     post '/subscriptions', payload 
     assert last_response.status == 400
-    assert @rockwork.reload.emails.empty?
-    assert @londoncalling.reload.emails.empty?
   end
 
 
@@ -73,8 +66,6 @@ class PartybotTest < ActiveSupport::TestCase
     }
     post '/subscriptions', payload 
     assert last_response.status == 404
-    assert @rockwork.reload.emails.empty?
-    assert @londoncalling.reload.emails.empty?
   end
 
   test 'POST /subscriptions (twice)' do
