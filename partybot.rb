@@ -6,6 +6,11 @@ get '/' do
   status 200
 end
 
+get '/subscriptions' do
+  content_type :json
+  Party.all.map(&:to_h).reduce(&:merge).to_json
+end
+
 post '/subscriptions' do
   content_type :json
   logger.info "SUBSCRIPTION: #{params}"

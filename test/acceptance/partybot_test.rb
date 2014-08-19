@@ -14,6 +14,12 @@ class PartybotTest < ActiveSupport::TestCase
     2.times.map{ |id| Party.create(:public_id => id.to_s) }
   end
 
+  test 'get /subscriptions' do
+    get '/subscriptions'
+    assert last_response.status == 200
+    assert last_response.body == '{"0":[],"1":[]}'
+  end
+
   test 'post /subscriptions (happy path)' do
     payload = {
       :user => {

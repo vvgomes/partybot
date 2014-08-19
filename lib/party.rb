@@ -10,6 +10,10 @@ class Party
     other.public_id == self.public_id
   end
 
+  def to_h
+    { public_id => emails }
+  end
+
   def self.available(user)
     Party.not_in(:emails => user.email)
   end
