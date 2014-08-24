@@ -12,6 +12,6 @@ class SubscriptionTest < ActiveSupport::TestCase
   test '#failed? (with arguments)' do
     @subs.merge!('99' => '200', '88' => '500')
     assert !@subs.failed?('99')
-    assert @subs.failed?('88')
+    assert  @subs.failed?('88')
   end
 end
