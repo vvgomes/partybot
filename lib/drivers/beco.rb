@@ -10,9 +10,9 @@ class Beco
   def import_parties
     @agent.get(BASE_URL).
     links_with(:href => /^agenda\//).map(&:click).map do |page|
-      page.search('a[title="NOME NA LISTA"]').map do |a|
+      page.search('a[title="NOME NA LISTA"]').find do |a|
         a['href'].match(/id=(?<id>\d+)/)['id']
-      end.first
+      end
     end.compact.map{ |id| Party.new(:public_id => id) }
   end
 
