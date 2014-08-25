@@ -13,12 +13,12 @@ class Nightclub
   end
 
   def subscribe(user, parties)
-    Subscription.new.tap do |subs|
+    {}.tap do |results|
       parties.each do |party|
-        subs[party.public_id] = @driver.subscribe(user, party)
+        results[party.public_id] = @driver.subscribe(user, party)
         party.tap do |p|
           p.emails << user.email
-        end.save unless subs.failed?(party.public_id)
+        end.save if results[party.public_id] == '200'
       end
     end
   end

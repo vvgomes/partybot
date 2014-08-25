@@ -22,8 +22,8 @@ post '/subscriptions' do
   Party.where(:public_id => params[:party]) : Party.available(user)
   return status(404) if parties.empty?
 
-  subscription = Nightclub.current.subscribe(user, parties)
-  subscription.failed? ? status(500) : status(201)
-  subscription.to_json
+  Nightclub.current.subscribe(user, parties).tap do |result|
+    result.values.find{ |s| s != '200' } ? status(500) : status(201)
+  end.to_json
 end
 
