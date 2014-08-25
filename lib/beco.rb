@@ -3,8 +3,12 @@ require 'mechanize'
 class Beco
   BASE_URL = 'http://www.beco203.com.br'
 
+  def initialize
+    @agent = Mechanize.new
+  end
+
   def import_parties
-    Mechanize.new.get(BASE_URL).
+    @agent.get(BASE_URL).
     links_with(:href => /^agenda\//).map(&:click).map do |page|
       page.search('a[title="NOME NA LISTA"]').map do |a|
         a['href'].match(/id=(?<id>\d+)/)['id']
@@ -19,13 +23,8 @@ class Beco
       'idAgenda' => party.public_id,
       'grava' => 'ENVIAR'
     }
-    Net::HTTP.post_form(post_uri(party), data).code
-  end
-
-  private
-
-  def post_uri(party)
     path = '/resources/files/nomeLista.php?id=' 
-    URI([BASE_URL, path, party.public_id].join)
+    uri = [BASE_URL, path, party.public_id].join
+    @agent.post(uri, data).code
   end
 end
