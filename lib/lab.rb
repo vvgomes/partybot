@@ -14,7 +14,7 @@ class Lab
     end
   end
 
-  def send_subscription(user, party)
+  def subscribe(user, party)
     data = {
       'guests[0][email]' => user.email, 
       'guests[0][name]' => user.name

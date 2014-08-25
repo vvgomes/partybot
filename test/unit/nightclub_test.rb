@@ -21,15 +21,15 @@ class NightclubTest < ActiveSupport::TestCase
   end
 
   test '#subscribe' do
-    @driver.stubs(:send_subscription).returns '200'
+    @driver.stubs(:subscribe).returns '200'
     @club.subscribe(@dude, [@londoncalling, @fuckrehab])
     assert @londoncalling.emails.include?('dude@gmail.com')
     assert @fuckrehab.emails.include?('dude@gmail.com')
   end
 
   test '#subscribe failed' do
-    @driver.stubs(:send_subscription).with(@dude, @fuckrehab).returns '500'
-    @driver.stubs(:send_subscription).with(@dude, @londoncalling).returns '200'
+    @driver.stubs(:subscribe).with(@dude, @fuckrehab).returns '500'
+    @driver.stubs(:subscribe).with(@dude, @londoncalling).returns '200'
     @club.subscribe(@dude, [@londoncalling, @fuckrehab])
     assert @londoncalling.emails.include?('dude@gmail.com')
     assert !@fuckrehab.emails.include?('dude@gmail.com')

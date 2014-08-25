@@ -16,7 +16,7 @@ class Beco
     end.compact.map{ |id| Party.new(:public_id => id) }
   end
 
-  def send_subscription(user, party)
+  def subscribe(user, party)
     data = {
       'nome' => user.name, 
       'email' => user.email,

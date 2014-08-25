@@ -14,7 +14,7 @@ class Cucko
     end
   end
 
-  def send_subscription(user, party)
+  def subscribe(user, party)
     data = {
       'nome[]' => user.name, 
       'email' => user.email,

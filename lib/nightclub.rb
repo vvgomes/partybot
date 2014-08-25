@@ -15,7 +15,7 @@ class Nightclub
   def subscribe(user, parties)
     Subscription.new.tap do |subs|
       parties.each do |party|
-        subs[party.public_id] = @driver.send_subscription(user, party)
+        subs[party.public_id] = @driver.subscribe(user, party)
         party.tap do |p|
           p.emails << user.email
         end.save unless subs.failed?(party.public_id)

@@ -3,7 +3,7 @@ class NullDriver
     []
   end
 
-  def send_subscription(user, party)
+  def subscribe(user, party)
     '200'
   end
 end
