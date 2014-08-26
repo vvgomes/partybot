@@ -53,3 +53,11 @@ task :sync do
   puts "after sync: [#{Party.all.map(&:public_id).join(', ')}]"
 end
 
+task :foo do
+  puts 'foo is running'
+end
+
+task :bar do
+  puts 'bar is running'
+end
+
