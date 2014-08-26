@@ -16,8 +16,8 @@ class PartyTest < ActiveSupport::TestCase
   end
 
   test '#to_h' do
-    emails = ['dude@gmail.com', 'bro@gmail.com']
+    emails = ['bro@foo.com', 'sis@foo.com']
     party = Party.new(:public_id => '99', :emails => emails)
-    assert party.to_h == {'99' => ['dude@gmail.com','bro@gmail.com']}
+    assert party.to_h == { :public_id => '99', :emails => emails }
   end
 end

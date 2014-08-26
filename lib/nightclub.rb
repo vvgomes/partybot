@@ -15,6 +15,7 @@ class Nightclub
   def subscribe(user, parties)
     {}.tap do |results|
       parties.each do |party|
+        next if party.emails.include? user.email
         results[party.public_id] = @driver.subscribe(user, party)
         party.tap do |p|
           p.emails << user.email

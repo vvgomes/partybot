@@ -6,9 +6,14 @@ get '/' do
   status 200
 end
 
-get '/subscriptions' do
+get '/parties' do
   content_type :json
-  Party.all.map(&:to_h).reduce(&:merge).to_json
+  filters = params.slice('including', 'missing')
+  parties = filters.reduce(Party.all) do |results, (filter, value)|
+    results = results.send(filter, value)
+  end
+  return status(404) if parties.empty?
+  parties.map(&:to_h).to_json
 end
 
 post '/subscriptions' do
@@ -18,12 +23,13 @@ post '/subscriptions' do
   user = User.new(params[:user])
   return status(400) unless user.valid?
 
-  parties = params[:party] ?
-  Party.where(:public_id => params[:party]) : Party.available(user)
+  parties = Party.in(:public_id => params[:parties])
   return status(404) if parties.empty?
 
-  Nightclub.current.subscribe(user, parties).tap do |result|
-    result.values.find{ |s| s != '200' } ? status(500) : status(201)
-  end.to_json
+  results = Nightclub.current.subscribe(user, parties)
+  return status(204) if results.empty?
+
+  results.values.find{ |s| s != '200' } ? status(500) : status(201)
+  results.to_json
 end
 

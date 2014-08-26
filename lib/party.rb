@@ -11,11 +11,17 @@ class Party
   end
 
   def to_h
-    { public_id => emails }
+    { :public_id => public_id, :emails => emails }
   end
 
-  def self.available(user)
-    Party.not_in(:emails => user.email)
+  class << self
+    def including(email)
+      where(:emails => email)
+    end
+
+    def missing(email)
+      not_in(:emails => email)
+    end
   end
 end
 

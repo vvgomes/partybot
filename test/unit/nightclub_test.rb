@@ -27,6 +27,12 @@ class NightclubTest < ActiveSupport::TestCase
     assert @fuckrehab.emails.include?('dude@gmail.com')
   end
 
+  test '#subscribe twice' do
+    @londoncalling.emails << 'dude@gmail.com'
+    @driver.expects(:subscribe).never
+    @club.subscribe(@dude, [@londoncalling])
+  end
+
   test '#subscribe failed' do
     @driver.stubs(:subscribe).with(@dude, @fuckrehab).returns '500'
     @driver.stubs(:subscribe).with(@dude, @londoncalling).returns '200'
