@@ -10,7 +10,8 @@ class Cucko
   def import_parties
     @agent.get("#{BASE_URL}/nomeLista").
     search('select#evento option').map do |o|
-      Party.new(:public_id => o['value'])
+      id = Integer(o['value']).to_s
+      Party.new(:public_id => id)
     end
   end
 
