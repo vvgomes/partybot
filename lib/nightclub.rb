@@ -26,7 +26,7 @@ class Nightclub
 
   class << self
     def current
-      @current ||= new(Kernel.const_get(ENV['DRIVER']).new)
+      @current ||= new(Kernel.const_get(ENV['DRIVER'] || NullDriver.to_s).new)
     end
   end
 end
