@@ -10,9 +10,10 @@ Partybot is a micro-service to interact with nightclub websites. Currently, it s
 ## Running
 
 Partybot depends on [MongoDB](https://www.mongodb.org/), [Ruby](https://rvm.io/), and [Bundler](http://bundler.io/). Make sure you have them all installed and follow these steps:
+
 1. `sudo mongod`
-1. `bundle install`
-2. `bundle exec rackup`
+2. `bundle install`
+3. `bundle exec rackup`
 
 Partybot will be running on `http://localhost:9292/`
 
