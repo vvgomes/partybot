@@ -5,7 +5,7 @@ Partybot is a micro-service to interact with nightclub websites. Currently, it s
 ## API
 
 - `GET /parties` - retrieves information about the upcoming parties;
-- `POST /subscriptions` - creates subcriptions for an user in the discount lists;
+- `POST /guests` - adds a guest (user & email) to the discount lists;
 
 ## Running
 
