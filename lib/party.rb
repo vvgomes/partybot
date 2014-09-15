@@ -14,14 +14,8 @@ class Party
     { :public_id => public_id, :emails => emails }
   end
 
-  class << self
-    def including(email)
-      where(:emails => email)
-    end
-
-    def missing(email)
-      not_in(:emails => email)
-    end
+  def self.for(user)
+    not_in(:emails => user.email)
   end
 end
 
