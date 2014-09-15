@@ -15,10 +15,10 @@ class Cucko
     end
   end
 
-  def subscribe(user, party)
+  def subscribe(guest, party)
     data = {
-      'nome[]' => user.name, 
-      'email' => user.email,
+      'nome[]' => guest.name, 
+      'email' => guest.email,
       'idEvento' => party.public_id
     }
     uri = "#{BASE_URL}/gravaNomeLista"

@@ -14,8 +14,8 @@ class Party
     { :public_id => public_id, :emails => emails }
   end
 
-  def self.for(user)
-    not_in(:emails => user.email)
+  def self.for(guest)
+    not_in(:emails => guest.email)
   end
 end
 

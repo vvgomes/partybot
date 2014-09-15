@@ -12,12 +12,12 @@ class Nightclub
     (imported - stored).map(&:save)
   end
 
-  def subscribe(user, parties)
+  def subscribe(guest, parties)
     parties.each do |party|
-      next if party.emails.include? user.email
-      response = @driver.subscribe(user, party)
+      next if party.emails.include? guest.email
+      response = @driver.subscribe(guest, party)
       party.tap do |p|
-        p.emails << user.email
+        p.emails << guest.email
       end.save if response == '200'
     end
   end

@@ -7,10 +7,10 @@ class Beco
     @agent = Mechanize.new
   end
 
-  def subscribe(user, party)
+  def subscribe(guest, party)
     data = {
-      'nome' => user.name, 
-      'email' => user.email,
+      'nome' => guest.name, 
+      'email' => guest.email,
       'idAgenda' => party.public_id,
       'grava' => 'ENVIAR'
     }

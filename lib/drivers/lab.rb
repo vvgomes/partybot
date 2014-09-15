@@ -14,10 +14,10 @@ class Lab
     end
   end
 
-  def subscribe(user, party)
+  def subscribe(guest, party)
     data = {
-      'guests[0][email]' => user.email, 
-      'guests[0][name]' => user.name
+      'guests[0][email]' => guest.email, 
+      'guests[0][name]' => guest.name
     }
     uri = "#{BASE_URL}/#{party.public_id}/add-guest"
     @agent.post(uri, data).code

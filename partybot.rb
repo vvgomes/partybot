@@ -10,13 +10,13 @@ end
 post '/guests' do
   logger.info "NEW GUEST => #{params}"
 
-  user = User.new(params)
-  return status(400) unless user.valid?
+  guest = Guest.new(params)
+  return status(400) unless guest.valid?
 
-  parties = Party.for(user)
+  parties = Party.for(guest)
   return status(204) if parties.empty?
 
-  Nightclub.current.subscribe(user, parties)
+  Nightclub.current.subscribe(guest, parties)
   status(201)
 end
 

@@ -1,4 +1,4 @@
-class User
+class Guest
   attr_reader :name, :email
 
   def initialize(params={})
