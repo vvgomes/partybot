@@ -48,8 +48,14 @@ end
 
 task :sync do
   require_relative 'config/environment'
-  puts "before sync: [#{Party.all.map(&:public_id).join(', ')}]"
+  puts "SYNC: before => [#{Party.all.map(&:public_id).join(', ')}]"
   Nightclub.current.sync!
-  puts "after sync: [#{Party.all.map(&:public_id).join(', ')}]"
+  puts "SYNC: after => [#{Party.all.map(&:public_id).join(', ')}]"
+end
+
+task :wakeup do
+  require_relative 'config/environment'
+  puts 'WAKEUP!'
+  Mechanize.new.get("http://partybot-#{ENV['DRIVER'].downcase}.herokuapp.com/")
 end
 
