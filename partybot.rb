@@ -2,6 +2,10 @@ require_relative 'config/environment'
 require 'sinatra'
 require 'json'
 
+get '/' do
+  status(200)
+end
+
 get '/parties' do
   content_type :json
   Party.asc(:public_id).map(&:to_h).to_json
