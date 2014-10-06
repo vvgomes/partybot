@@ -1,8 +1,8 @@
 require_relative '../test_helper' 
 
-class NightclubTest < ActiveSupport::TestCase
+class ClubTest < ActiveSupport::TestCase
   setup do
-    @club = Nightclub.new(@driver = stub)
+    @club = Club.new(@driver = stub)
     @dude = Guest.new(:name => 'Dude', :email => 'dude@gmail.com')
     @rockwork, @londoncalling, @fuckrehab = 3.times.map do |id|
       Party.new(public_id: id).tap do |p|
@@ -42,6 +42,6 @@ class NightclubTest < ActiveSupport::TestCase
   end
 
   test '.current defaults to NullDriver' do
-    assert Nightclub.current.driver.class == NullDriver
+    assert Club.current.driver.class == NullDriver
   end
 end

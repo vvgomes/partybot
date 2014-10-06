@@ -20,7 +20,7 @@ post '/guests' do
   parties = Party.for(guest)
   return status(204) if parties.empty?
 
-  Nightclub.current.subscribe(guest, parties)
+  Club.current.subscribe(guest, parties)
   status(201)
 end
 

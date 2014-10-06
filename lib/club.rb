@@ -1,4 +1,4 @@
-class Nightclub
+class Club
   attr_reader :driver
 
   def initialize(driver)

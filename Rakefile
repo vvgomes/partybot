@@ -49,7 +49,7 @@ end
 task :sync do
   require_relative 'config/environment'
   puts "SYNC: before => [#{Party.all.map(&:public_id).join(', ')}]"
-  Nightclub.current.sync!
+  Club.current.sync!
   puts "SYNC: after => [#{Party.all.map(&:public_id).join(', ')}]"
 end
 
