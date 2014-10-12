@@ -11,7 +11,7 @@ class Party
   end
 
   def to_h
-    { :public_id => public_id, :emails => emails }
+    { :public_id => public_id }
   end
 
   def self.for(guest)

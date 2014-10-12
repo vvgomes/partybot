@@ -47,9 +47,7 @@ class PartybotTest < ActiveSupport::TestCase
   test 'retrieves information about all the parties' do
     get '/parties'
     assert last_response.status == 200
-    assert last_response.body == 
-      '[{"public_id":"1","emails":["sis@gmail.com"]},'+
-      '{"public_id":"2","emails":["sis@gmail.com"]}]'
+    assert last_response.body == '[{"public_id":"1"},{"public_id":"2"}]'
   end
 end
 
