@@ -15,6 +15,29 @@ class PartybotTest < ActiveSupport::TestCase
     @p2 = Party.create(:public_id => '2', :emails => ['sis@gmail.com'])
   end
 
+  test 'retrieves all the parties' do
+    get '/parties'
+    assert last_response.status == 200
+    assert last_response.body == '[{"public_id":"1"},{"public_id":"2"}]'
+  end
+
+  test 'retrieves all the guests' do
+    get '/guests'
+    assert last_response.status == 200
+    assert last_response.body == '["sis@gmail.com"]'
+  end
+
+  test 'retrieves the guest list for a party' do
+    get '/parties/1/guests'
+    assert last_response.status == 200
+    assert last_response.body == '["sis@gmail.com"]'
+  end
+
+  test 'informs when party is not found' do
+    get '/parties/3/guests'
+    assert last_response.status == 404
+  end
+
   test 'adds a new guest to all parties' do
     post '/guests', :name => 'bro', :email => 'bro@gmail.com' 
     assert last_response.status == 201
@@ -42,12 +65,6 @@ class PartybotTest < ActiveSupport::TestCase
     assert last_response.status == 400
     assert !(@p1.reload.emails.include? 'bro@gmail.com')
     assert !(@p2.reload.emails.include? 'bro@gmail.com')
-  end
-
-  test 'retrieves information about all the parties' do
-    get '/parties'
-    assert last_response.status == 200
-    assert last_response.body == '[{"public_id":"1"},{"public_id":"2"}]'
   end
 end
 

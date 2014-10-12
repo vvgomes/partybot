@@ -11,6 +11,18 @@ get '/parties' do
   Party.asc(:public_id).map(&:to_h).to_json
 end
 
+get '/guests' do
+  content_type :json
+  Party.all.map(&:emails).flatten.uniq.to_json
+end
+
+get '/parties/:public_id/guests' do
+  content_type :json
+  party = Party.where(:public_id => params[:public_id]).first
+  return status(404) unless party
+  party.emails.to_json
+end
+
 post '/guests' do
   logger.info "NEW GUEST => #{params}"
 
