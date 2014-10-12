@@ -14,11 +14,8 @@ end
 post '/guests' do
   logger.info "NEW GUEST => #{params}"
 
-  guest = Guest.new(params)
-  return status(400) unless guest.valid?
-
-  parties = Party.for(guest)
-  return status(204) if parties.empty?
+  return status(400) unless (guest = Guest.new(params)).valid?
+  return status(204) if (parties = Party.for(guest)).empty?
 
   Club.current.subscribe(guest, parties)
   status(201)
